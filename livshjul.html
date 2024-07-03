@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="livshjul.css">
+    <title>Livshjul</title>
+</head>
+<body>
+    <div style="text-align: center;">
+        <label for="name">Navn: </label>
+        <input type="text" id="name" style="width: 200px; height: 40px; font-size: 20px;" />
+    </div>
+    
+    <div class="currentSVGContainer">
+        <svg id="lifeWheel" viewBox="-1.5 -1.5 3 3">
+            <circle cx="0" cy="0" r="1" fill="none" stroke="black" stroke-width="0.01"/>
+            <circle cx="0" cy="0" r="0.1" fill="none" stroke="black" stroke-width="0.01"/>
+            <circle cx="0" cy="0" r="0.2" fill="none" stroke="black" stroke-width="0.01"/>
+            <circle cx="0" cy="0" r="0.3" fill="none" stroke="black" stroke-width="0.01"/>
+            <circle cx="0" cy="0" r="0.4" fill="none" stroke="black" stroke-width="0.01"/>
+            <circle cx="0" cy="0" r="0.5" fill="none" stroke="black" stroke-width="0.01"/>
+            <circle cx="0" cy="0" r="0.6" fill="none" stroke="black" stroke-width="0.01"/>
+            <circle cx="0" cy="0" r="0.7" fill="none" stroke="black" stroke-width="0.01"/>
+            <circle cx="0" cy="0" r="0.8" fill="none" stroke="black" stroke-width="0.01"/>
+            <circle cx="0" cy="0" r="0.9" fill="none" stroke="black" stroke-width="0.01"/>
+            <circle cx="0" cy="0" r="1" fill="none" stroke="black" stroke-width="0.01"/>
+        </svg>
+    
+        <div>
+            <label for="numSegments">Antal livsområder: </label>
+            <input type="number" id="numSegments" min="1" max="12" />
+            <button class="button-88" onclick="generateSegmentInputs()">Generer livsmål</button>
+        </div>
+        <br>
+        <div id="segmentInputs"></div>
+        <br>
+        <button class="button-88" onclick="renderWheel()">Generer livshjul</button>
+    </div>
+    
+    <div>
+        <button class="button-88" onclick="saveSVG()">Gem livshjul</button>
+    </div>
+
+    <!-- Upload and Compare Section -->
+    <details>
+        <summary>Upload livshjul</summary>
+        <div id="comparison">
+            <div>
+                <br>
+                <input type="file" id="uploadInput" accept=".svg" onchange="loadUploadedSVG(event)">
+                <div id="uploadedSVGContainer" style="display: none;"></div>
+            </div> 
+        </details>
+            <details>
+                <summary>Sammenlign livshjul</summary>
+                <div>
+                <br>
+                <button onclick="compareSVGs()">Sammenlign livshjul</button>
+                <div id="comparisonResult"></div>
+                <div id="currentSVGContainer"></div>
+                </div>
+            </details>
+
+    <script src="livshjul.js"></script>
+</body>
+</html>
