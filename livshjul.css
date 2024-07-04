@@ -5,8 +5,8 @@
     height: fit-content;
 }
 svg {
-    width: 500px;
-    height: 500px;
+    width: 700px;
+    height: 700px;
 }
 .controls {
     margin-top: 20px;
@@ -63,8 +63,8 @@ details {
 } 
 
 details[open] {
-    background-color: #4c92d8;
-    color: white;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
 }
 
 summary {
@@ -74,5 +74,6 @@ summary {
 }
 
 details[open] summary {
-    background-color: #4c92d8;
+    background-color: #ffffff;
+    color: black;
 }

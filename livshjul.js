@@ -78,7 +78,7 @@ function renderWheel() {
     for (let i = 0; i < numSegments; i++) {
         const name = document.getElementById(`segmentName${i}`).value;
         const points = parseInt(document.getElementById(`segmentValue${i}`).value);
-        if (name && points >= 1 && points <= 10) {
+        if (name && points >= 0 && points <= 10) {
             segments.push({ name, points });
         }
     }
@@ -178,8 +178,9 @@ function drawWheel() {
         svg.appendChild(path);
 
         // Add text label
-        const textX = (x1 + x2) / 2 * 0.7; // Adjusting text position
-        const textY = (y1 + y2) / 2 * 0.7;
+        const midAngle = (startAngle + endAngle) / 2;
+        const textX = Math.cos(midAngle) * 1.25; // Slightly outside the outer circle
+        const textY = Math.sin(midAngle) * 1.25; 
         const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
         text.setAttribute('x', textX);
         text.setAttribute('y', textY);
