@@ -37,7 +37,7 @@ function generateSegmentInputs() {
             
             segmentInputsDiv.appendChild(segmentDiv);
         }
-        
+
         drawSegmentLines(numSegments);
     }
 }
@@ -84,6 +84,7 @@ function renderWheel() {
         }
     }
     if (segments.length > 0) {
+        createSegmentTextFields(segments);
         drawWheel();
     }
 }
@@ -174,6 +175,7 @@ function drawWheel() {
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', pathData);
         path.setAttribute('fill', color);
+        path.setAttribute('fill-opacity', '0.75');
         path.setAttribute('stroke', 'black');
         path.setAttribute('stroke-width', '0.01');
         svg.appendChild(path);
@@ -365,4 +367,77 @@ function parseUploadedSVG(uploadedSVGContainer) {
     });
 
     return segments;
+}
+
+function createSegmentTextFields(segments) {
+    const segmentContainer = document.getElementById('livsmaalKommentar');
+    if (!segmentContainer) {
+        console.error('Segment container not found.');
+        return;
+    }
+
+    segments.forEach((segment, index) => {
+        const textField = document.createElement('textarea'); // Use textarea instead of input
+        textField.style.width = '40%'; // Set the width of the text field to 100%
+        textField.style.height = '100px'; // Set the height of the text field to 100px
+        textField.addEventListener('input', (event) => {
+            segments[index].name = event.target.value;
+        });
+
+        const label = document.createElement('label');
+        label.textContent = segment.name + "(" + segment.points + ")" + ": ";
+        label.appendChild(textField);
+
+        segmentContainer.appendChild(label);
+
+        // Add textarea for action steps
+        const actionStepsField = document.createElement('textarea');
+        actionStepsField.style.width = '40%'; // Set the width of the text field to 100%
+        actionStepsField.style.height = '100px'; // Set the height of the text field to 100px
+        actionStepsField.addEventListener('input', (event) => {
+            segments[index].actionSteps = event.target.value;
+        });
+
+        const actionStepsLabel = document.createElement('label');
+        actionStepsLabel.textContent = "Action Steps: ";
+        actionStepsLabel.appendChild(actionStepsField);
+
+        segmentContainer.appendChild(actionStepsLabel);
+        segmentContainer.appendChild(document.createElement('br')); // Add line break after each text field
+    });
+}
+
+function saveKommentarer() {
+    const segmentContainer = document.getElementById('livsmaalKommentar');
+    const name = document.getElementById('name').value;
+
+    if (!segmentContainer) {
+        console.error('Segment container not found.');
+        return;
+    }
+
+    const textFields = segmentContainer.querySelectorAll('textarea');
+    if (textFields.length === 0) {
+        console.warn('No text fields found.');
+        return;
+    }
+
+    let textContent = '';
+    textFields.forEach((textField, index) => {
+        const segmentName = textField.previousSibling.textContent.replace(':', '').trim();
+        const segmentText = textField.value.trim();
+        textContent += `${segmentName}: ${segmentText}\n`;
+
+        if (index === textFields.length - 1) {
+            // Last text field, save the content to a file
+            const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `${name}_kommentarer.txt`;
+            a.textContent = 'Download Text';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    });
 }

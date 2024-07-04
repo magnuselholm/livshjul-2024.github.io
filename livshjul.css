@@ -52,6 +52,15 @@ svg {
     }
 }
 
+.navbar {
+    background-color: #2e4d7c;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    text-align: center;
+}
+
 details {
     font-family: "Akzidenz Grotesk BQ Medium", -apple-system, BlinkMacSystemFont, sans-serif;
     margin-top: 20px;

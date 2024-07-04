@@ -7,6 +7,15 @@
     <title>Livshjul</title>
 </head>
 <body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <h1>Livshjul</h1> <!-- Your Navbar-like headline -->
+            </div>
+            <!-- Add other navigation items or menu here if needed -->
+        </nav>
+    </header>
+    <br>
     <div style="text-align: center;">
         <label for="name">Navn: </label>
         <input type="text" id="name" style="width: 200px; height: 40px; font-size: 20px;" />
@@ -43,6 +52,13 @@
     </div>
 
     <!-- Upload and Compare Section -->
+    <details>
+        <summary>Kommentarer</summary>
+        <div id="livsmaalKommentar">
+            <br>
+        </div>
+        <button class="button-88" onclick="saveKommentarer()">Gem kommentarer</button>
+    </details>
     <details>
         <summary>Upload livshjul</summary>
         <div id="comparison">
