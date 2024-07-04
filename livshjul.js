@@ -80,6 +80,7 @@ function renderWheel() {
         const points = parseInt(document.getElementById(`segmentValue${i}`).value);
         if (name && points >= 0 && points <= 10) {
             segments.push({ name, points });
+            console.log(name,points);
         }
     }
     if (segments.length > 0) {
@@ -199,7 +200,7 @@ function drawWheel() {
         pointsLabel.setAttribute('fill', 'black');
         pointsLabel.setAttribute('text-anchor', 'middle');
         pointsLabel.setAttribute('alignment-baseline', 'middle');
-        pointsLabel.textContent = `${segment.points} points`;
+        pointsLabel.textContent = `${segment.points}`;
         svg.appendChild(pointsLabel);
     });
 }
@@ -268,7 +269,7 @@ function compareSVGs() {
         return;
     }
 
-
+    
 
     // Display comparison results or arrow as needed
     comparisonResult.innerHTML = 'Comparison arrow drawn from uploaded SVG to current life-wheel SVG.';
@@ -278,4 +279,43 @@ function compareSVGs() {
     } else {
         console.error('SVG containers not found.');
     }
+
+    const parsedSegments = parseUploadedSVG(uploadedSVGContainer);
+    console.log(parsedSegments);
+    
+}
+
+function parseUploadedSVG(uploadedSVGContainer) {
+    if (!uploadedSVGContainer) {
+        console.error('Uploaded SVG container not found.');
+        return;
+    }
+
+    const uploadedSVG = uploadedSVGContainer.querySelector('svg');
+    if (!uploadedSVG) {
+        console.error('SVG element not found in uploaded SVG container.');
+        return;
+    }
+
+    const segmentElements = uploadedSVG.querySelectorAll('path');
+    const segments = [];
+
+    segmentElements.forEach((segmentElement) => {
+        // Extract name from the next <text> element
+        const nextTextElement = segmentElement.nextElementSibling;
+        if (!nextTextElement || nextTextElement.tagName !== 'text') {
+            console.warn('No <text> element found following <path>. Skipping.');
+            return;
+        }
+        const name = nextTextElement.textContent.trim();
+        
+        const points = nextTextElement.nextElementSibling.textContent.trim();
+
+        // Push segment to array if both name and points are valid
+        if (name && points) {
+            segments.push({ name, points });
+        }
+    });
+
+    return segments;
 }
