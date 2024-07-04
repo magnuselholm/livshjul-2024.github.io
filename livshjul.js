@@ -280,8 +280,55 @@ function compareSVGs() {
         console.error('SVG containers not found.');
     }
 
-    const parsedSegments = parseUploadedSVG(uploadedSVGContainer);
-    console.log(parsedSegments);
+    const oldSegments = parseUploadedSVG(uploadedSVGContainer);
+    console.log(oldSegments);
+
+    // Create a table to display the before and after for each element
+    const table = document.createElement('table');
+    const thead = document.createElement('thead');
+    const tbody = document.createElement('tbody');
+
+    // Create table headers
+    const headers = ['Livsområde', 'Før', 'Efter'];
+    const headerRow = document.createElement('tr');
+    headers.forEach((headerText) => {
+        const th = document.createElement('th');
+        th.textContent = headerText;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+    table.appendChild(thead);
+
+    // Create table rows for each element
+    segments.forEach((segment, index) => { // Add index parameter to forEach callback
+        const row = document.createElement('tr');
+    
+        // Create table cells for element name, before, and after
+        const nameCell = document.createElement('td');
+        nameCell.textContent = segment.name;
+        row.appendChild(nameCell);
+    
+        const beforeCell = document.createElement('td');
+        const beforeSegment = index < oldSegments.length ? oldSegments[index] : null; // Use index to access oldSegments
+        beforeCell.textContent = beforeSegment ? beforeSegment.points : '';
+        row.appendChild(beforeCell);
+    
+        const afterCell = document.createElement('td');
+        afterCell.textContent = segment.points;
+        row.appendChild(afterCell);
+    
+        tbody.appendChild(row);
+    });
+
+    table.appendChild(tbody);
+
+    // Append the table to the comparison result container
+    comparisonResult.appendChild(table);
+
+    // Function to calculate the after value for each element
+    function calculateAfter(points) {
+        
+    }
     
 }
 
