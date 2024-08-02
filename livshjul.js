@@ -376,36 +376,44 @@ function createSegmentTextFields(segments) {
         return;
     }
 
+    segmentContainer.innerHTML = ''; // Clear previous segments
+
     segments.forEach((segment, index) => {
-        const textField = document.createElement('textarea'); // Use textarea instead of input
-        textField.style.width = '40%'; // Set the width of the text field to 100%
-        textField.style.height = '100px'; // Set the height of the text field to 100px
-        textField.addEventListener('input', (event) => {
-            segments[index].name = event.target.value;
-        });
-
+        // Create and append life field label
         const label = document.createElement('label');
-        label.textContent = segment.name + "(" + segment.points + ")" + ": ";
-        label.appendChild(textField);
-
+        label.textContent = `${segment.name} (${segment.points})`;
         segmentContainer.appendChild(label);
 
-        // Add textarea for action steps
+        // Create and append textarea for comments
+        const textField = document.createElement('textarea');
+        textField.style.width = '100%';
+        textField.style.height = '100px'; // Set the height of the text field to 100px
+        textField.addEventListener('input', (event) => {
+            segments[index].value = event.target.value;
+        });
+
+        segmentContainer.appendChild(textField);
+        
+        // Create and append action steps label
+        const actionStepsLabel = document.createElement('label');
+        actionStepsLabel.textContent = 'Action Steps:';
+        segmentContainer.appendChild(actionStepsLabel);
+
+        // Create and append textarea for action steps
         const actionStepsField = document.createElement('textarea');
-        actionStepsField.style.width = '40%'; // Set the width of the text field to 100%
+        actionStepsField.style.width = '100%';
         actionStepsField.style.height = '100px'; // Set the height of the text field to 100px
         actionStepsField.addEventListener('input', (event) => {
             segments[index].actionSteps = event.target.value;
         });
 
-        const actionStepsLabel = document.createElement('label');
-        actionStepsLabel.textContent = "Action Steps: ";
-        actionStepsLabel.appendChild(actionStepsField);
+        segmentContainer.appendChild(actionStepsField);
 
-        segmentContainer.appendChild(actionStepsLabel);
-        segmentContainer.appendChild(document.createElement('br')); // Add line break after each text field
+        // Add a line break after each segment
+        segmentContainer.appendChild(document.createElement('br'));
     });
 }
+
 
 function saveKommentarer() {
     const segmentContainer = document.getElementById('livsmaalKommentar');
